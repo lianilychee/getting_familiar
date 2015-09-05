@@ -1,2 +1,4 @@
 # ros-familiarization
-Computational Robotics assignment 1.
+Computational Robotics Fall 2015
+
+Assignment 1.
