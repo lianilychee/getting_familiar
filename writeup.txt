@@ -1,0 +1,13 @@
+Liani Lye
+Ian Hill
+Getting Familiar with ROS
+
+
+1. How might rosbag fit into a debugging process as you work on projects in this class?
+
+rosbag allows recording of specific topics, meaning one can "unit test" specific topics.
+
+
+2. Are there any obvious shortcomings of rosbag as a debugging tool?
+
+There is a learning curve in terms of bag playback in rviz.  We had either our bag / rviz times out of sync and screen playback showing, or vice versa.
