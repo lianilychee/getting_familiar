@@ -39,6 +39,3 @@ The observed behavior with a queue_size in this particular case is the same as t
 This behavior is great in cases where the callback can run more quickly than the publisher publishes. With a queue, if the publisher publishes slightly more quickly than usual or the callback takes longer for whatever reason, the data sent is not lost but rather held in the subscribers queue.
 
 This behavior is bad if the subscriber always wants the most recent data and doesn't care about the subscriber keeping a memory of recently received messages. The queue_size parameter is simply not useful if the time required to run the callback is greater than the time it takes to fill the entire queue.
-
----
-NEATO PROGRAMMING
