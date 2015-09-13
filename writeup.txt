@@ -2,6 +2,8 @@ Liani Lye
 Ian Hill
 Getting Familiar with ROS
 
+---
+RVIZ
 
 1. How might rosbag fit into a debugging process as you work on projects in this class?
 
@@ -11,3 +13,10 @@ rosbag allows recording of specific topics, meaning one can "unit test" specific
 2. Are there any obvious shortcomings of rosbag as a debugging tool?
 
 There is a learning curve in terms of bag playback in rviz.  We had either our bag / rviz times out of sync and screen playback showing, or vice versa.
+
+---
+COORDINATE SYSTEMS & THE TF MODULE
+
+If you currently have the base_frame set to odom, change it to a different value.  Does the new behaviour make sense?
+
+Changing the base frame from odom to another value results in changing the rviz visualization perspective.  When the base frame is set to odom, the bot moves in relation to the world origin.  When the base frame is set to base_link, the base_link origin (the bot location) is static, to which the world origin moves in relation.
