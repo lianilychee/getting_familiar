@@ -26,8 +26,19 @@ ROS CALLBACKS & THREADING
 
 1. Listener callback with sleep. What happens when you run this code?  What assumption can you safely make about any code that you put in a sensor callback?  In what ways might the behavior you observe be suboptimal when programming a robot?
 
-It seems that adding the queue size in listener.py
+Adding time.sleep() to the callback function simulates running a more complicated (i.e. time consuming) computation in the callback function. Without a queue, the callback function blocks the subscriber, so "Hello World" is only printed once every 10 seconds.
 
-2. Subscriber with queue_size.
+We can safely assume that all code put in a sensor callback will have to be run before the next callback can be run.
+
+If you need to run a callback function on every piece of data that a publisher publishes, the behavior of the subscriber callback could be suboptimal (i.e. miss pieces of information) if publisher publishes faster than the subscriber callback can compute.
+
+2. Subscriber with queue_size. What happens now?  In what scenarios is this behavior good?  In what scenarios is this behavior bad?
+
+The observed behavior with a queue_size in this particular case is the same as the behavior of the callback without the queue_size because the currently running callback is still blocking another callback from executed. However, behind the scenes queue_size number of data points are stored in the subscriber's queue and would not be lost if the callback were much faster. 
+
+This behavior is great in cases where the callback can run more quickly than the publisher publishes. With a queue, if the publisher publishes slightly more quickly than usual or the callback takes longer for whatever reason, the data sent is not lost but rather held in the subscribers queue.
+
+This behavior is bad if the subscriber always wants the most recent data and doesn't care about the subscriber keeping a memory of recently received messages. The queue_size parameter is simply not useful if the time required to run the callback is greater than the time it takes to fill the entire queue.
+
 ---
 NEATO PROGRAMMING
