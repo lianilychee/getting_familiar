@@ -1,34 +1,81 @@
+#!/usr/bin/env python
+# Adapted almost entirely from actual rospy teleop code from
+# https://github.com/ros-teleop/teleop_twist_keyboard/blob/master/teleop_twist_keyboard.py
+import roslib; roslib.load_manifest('getting_familiar')
+import rospy
+from geometry_msgs.msg import Twist
 import sys
 import select
 import tty
 import termios
-import time
 
-class NonBlockingConsole(object):
+moveBindings = {
+        'i':(1,0),
+        'o':(1,-1),
+        'j':(0,1),
+        'l':(0,-1),
+        'u':(1,1),
+        ',':(-1,0),
+        '.':(-1,1),
+        'm':(-1,-1),
+           }
 
-    def __enter__(self):
-        self.old_settings = termios.tcgetattr(sys.stdin)
-        tty.setcbreak(sys.stdin.fileno())
-        return self
+speedBindings={
+        'q':(1.1,1.1),
+        'z':(.9,.9),
+        'w':(1.1,1),
+        'x':(.9,1),
+        'e':(1,1.1),
+        'c':(1,.9),
+          }
 
-    def __exit__(self, type, value, traceback):
-        termios.tcsetattr(sys.stdin, termios.TCSADRAIN, self.old_settings)
+speed = .5
+turn = 1
 
+def vels(speed,turn):
+    return "currently:\tspeed %s\tturn %s " % (speed,turn)
 
-    def get_data(self):
-        if select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], []):
-            return sys.stdin.read(1)
-        return False
-
+def getKey():
+    tty.setraw(sys.stdin.fileno())
+    select.select([sys.stdin], [], [], 0)
+    key = sys.stdin.read(1)
+    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
+    return key
 
 if __name__ == '__main__':
-    # Use like this
-    with NonBlockingConsole() as nbc:
+    settings = termios.tcgetattr(sys.stdin)
+    pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
+    rospy.init_node('teleop_twist_keyboard')
+    x = 0
+    th = 0
+    status = 0
+    try:
         while 1:
-            key = nbc.get_data()
-            if key == '\x03':  # control + C
-                break
-            if key:
-                print key
-            print "Hello World"
-            time.sleep(.1)
+            key = getKey()
+            if key in moveBindings.keys():
+                x = moveBindings[key][0]
+                th = moveBindings[key][1]
+            elif key in speedBindings.keys():
+                speed = speed * speedBindings[key][0]
+                turn = turn * speedBindings[key][1]
+                print vels(speed,turn)
+                if (status == 14):
+                    print msg
+                status = (status + 1) % 15
+            else:
+                x = 0
+                th = 0
+                if key == '\x03':  # control + C
+                    break
+            twist = Twist()
+            twist.linear.x = x*speed; twist.linear.y = 0; twist.linear.z = 0
+            twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = th*turn
+            pub.publish(twist)
+    except:
+        print e
+    finally:
+        twist = Twist()
+        twist.linear.x = 0; twist.linear.y = 0; twist.linear.z = 0
+        twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = 0
+        pub.publish(twist)
+    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
