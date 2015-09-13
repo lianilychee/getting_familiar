@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-""" Write a ROS node to move the bot in a (roughly) 1m x 1m square using odometry. """
+""" Write a ROS node to move the bot in a (roughly) 1m x 1m square. """
 
 import rospy
 from geometry_msgs.msg import Twist, Vector3, Quaternion, Point
