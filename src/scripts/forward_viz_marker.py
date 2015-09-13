@@ -21,7 +21,7 @@ marker.color.r = 1.0
 marker.color.g = 1.0
 marker.color.b = 0.0
 marker.pose.orientation.w = 1.0
-marker.pose.position.x = 1
+marker.pose.position.x = 1h
 marker.pose.position.y = 0
 marker.pose.position.z = 0
 

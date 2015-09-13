@@ -24,9 +24,10 @@ Changing the base frame from odom to another value results in changing the rviz 
 ---
 ROS CALLBACKS & THREADING
 
-In what scenarios is this behavior good?  Bad?
+1. Listener callback with sleep. What happens when you run this code?  What assumption can you safely make about any code that you put in a sensor callback?  In what ways might the behavior you observe be suboptimal when programming a robot?
 
 It seems that adding the queue size in listener.py
 
+2. Subscriber with queue_size.
 ---
 NEATO PROGRAMMING
