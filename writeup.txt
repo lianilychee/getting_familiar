@@ -3,7 +3,7 @@ Ian Hill
 Getting Familiar with ROS
 
 ---
-RVIZ
+ROSBAG
 
 1. How might rosbag fit into a debugging process as you work on projects in this class?
 
@@ -20,3 +20,13 @@ COORDINATE SYSTEMS & THE TF MODULE
 If you currently have the base_frame set to odom, change it to a different value.  Does the new behaviour make sense?
 
 Changing the base frame from odom to another value results in changing the rviz visualization perspective.  When the base frame is set to odom, the bot moves in relation to the world origin.  When the base frame is set to base_link, the base_link origin (the bot location) is static, to which the world origin moves in relation.
+
+---
+ROS CALLBACKS & THREADING
+
+In what scenarios is this behavior good?  Bad?
+
+It seems that adding the queue size in listener.py
+
+---
+NEATO PROGRAMMING
